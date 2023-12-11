@@ -4,7 +4,9 @@ from rest_framework.generics import CreateAPIView
 from .serializers import CdrSerializer
 from .models import Cdr
 from django.http import HttpResponse
+import logging
 
+logger = logging.getLogger(__name__)
 
 # create and save CDR
 class CdrCreate(CreateAPIView):
@@ -14,8 +16,14 @@ class CdrCreate(CreateAPIView):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             call = serializer.save()
+            logger.info('SUCCESS')
+            logger.info(request.data)
             return Response(status=200)
         else:
+            logger.info(serializer.errors)
+            logger.info(request.data)
+            
+        
             return Response(serializer.errors, status=404)
 
 
