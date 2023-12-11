@@ -6,7 +6,7 @@ from .models import Cdr
 from django.http import HttpResponse
 
 
-# create and save CDR 
+# create and save CDR
 class CdrCreate(CreateAPIView):
     serializer_class = CdrSerializer
 
@@ -22,12 +22,12 @@ class CdrCreate(CreateAPIView):
 # list via get/ CDRs
 class CdrList(generics.ListCreateAPIView):
     queryset = Cdr.objects.all()
-    serializer_class = CdrSerializer    
+    serializer_class = CdrSerializer
 
 
 # list via get/pk CDRs by id 
 class CdrListById(generics.RetrieveUpdateDestroyAPIView):
     queryset = Cdr.objects.all()
-    serializer_class = CdrSerializer    
+    serializer_class = CdrSerializer
 
     
