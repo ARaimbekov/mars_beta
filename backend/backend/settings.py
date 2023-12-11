@@ -127,3 +127,22 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "api": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": "/home/r2d2/mars_beta/api.log",
+        },
+    },
+    "loggers": {
+        "api": {
+            "handlers": ["api"],
+            "level": "INFO",
+            "propagate": True,
+        },
+    },
+}
