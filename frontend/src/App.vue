@@ -1,19 +1,15 @@
 <template>
   <div id="app">
-    <CdrStatistics />
+    <CdrStatisticsView />
   </div>
 </template>
 
 <script>
-import CdrStatistics from './components/CdrStatistics/CdrStatistics.vue';
+import CdrStatisticsView from './components/CdrStatistics/CdrStatistics.vue';
 
 export default {
   components: {
-    CdrStatistics,
+    CdrStatisticsView,
   },
 };
 </script>
-
-<style>
-/* Ваш глобальный стиль */
-</style>
