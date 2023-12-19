@@ -5,12 +5,16 @@ from .serializers import CdrSerializer
 from .models import Cdr
 from django.http import HttpResponse
 import logging
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 
 logger = logging.getLogger(__name__)
 
-# create and save CDR
 class CdrCreate(CreateAPIView):
     serializer_class = CdrSerializer
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
@@ -22,20 +26,18 @@ class CdrCreate(CreateAPIView):
         else:
             logger.info(serializer.errors)
             logger.info(request.data)
-            
-        
             return Response(serializer.errors, status=404)
 
-
-# list via get/ CDRs
 class CdrList(generics.ListCreateAPIView):
     queryset = Cdr.objects.all()
     serializer_class = CdrSerializer
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
-
-# list via get/pk CDRs by id 
 class CdrListById(generics.RetrieveUpdateDestroyAPIView):
     queryset = Cdr.objects.all()
     serializer_class = CdrSerializer
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     
