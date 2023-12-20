@@ -17,27 +17,35 @@ class CdrCreate(CreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
+        try:
+            # Проверка аутентификации пользователя
+            if not request.user.is_authenticated:
+                logger.info('Unauthorized user attempted to create a CDR.')
+                return Response({'error': 'Unauthorized'}, status=status.HTTP_401_UNAUTHORIZED)
+
+            serializer = self.serializer_class(data=request.data)
+            serializer.is_valid(raise_exception=True)
             call = serializer.save()
             logger.info('SUCCESS')
             logger.info(request.data)
-            return Response(status=200)
-        else:
-            logger.info(serializer.errors)
-            logger.info(request.data)
-            return Response(serializer.errors, status=404)
+            return Response(status=status.HTTP_201_CREATED)
+        except ValidationError as e:
+            logger.error(f'Validation Error: {e.detail}')
+            return Response({'error': e.detail}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            logger.error(f'Error during CdrCreate: {str(e)}')
+            return Response({'error': 'Internal Server Error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class CdrList(generics.ListCreateAPIView):
     queryset = Cdr.objects.all()
     serializer_class = CdrSerializer
-    authentication_classes = [SessionAuthentication, TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [SessionAuthentication, TokenAuthentication]
+    # permission_classes = [IsAuthenticated]
 
 class CdrListById(generics.RetrieveUpdateDestroyAPIView):
     queryset = Cdr.objects.all()
     serializer_class = CdrSerializer
-    authentication_classes = [SessionAuthentication, TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [SessionAuthentication, TokenAuthentication]
+    # permission_classes = [IsAuthenticated]
 
     
