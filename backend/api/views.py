@@ -7,6 +7,8 @@ from django.http import HttpResponse
 import logging
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+
 
 
 logger = logging.getLogger(__name__)
@@ -48,4 +50,7 @@ class CdrListById(generics.RetrieveUpdateDestroyAPIView):
     # authentication_classes = [SessionAuthentication, TokenAuthentication]
     # permission_classes = [IsAuthenticated]
 
-    
+class GetCdrCount(APIView):
+    def get(self, request, format=None):
+        cdr_count = Cdr.objects.count()
+        return Response({'cdr_count': cdr_count}, status=status.HTTP_200_OK)
