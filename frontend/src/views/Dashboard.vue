@@ -20,7 +20,7 @@
           <div class="flex justify-content-between mb-3">
             <div>
               <span class="block text-500 font-medium mb-3">All Users</span>
-              <div class="text-900 font-medium text-xl">{{ cdrCount }}</div>
+              <div class="text-900 font-medium text-xl"> in progress </div>
             </div>
             <!-- <div class="flex align-items-center justify-content-center bg-blue-100 border-round" style="width: 2.5rem; height: 2.5rem">
               <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
@@ -35,7 +35,7 @@
           <div class="flex justify-content-between mb-3">
             <div>
               <span class="block text-500 font-medium mb-3">Free space disk</span>
-              <div class="text-900 font-medium text-xl">{{ cdrCount }}</div>
+              <div class="text-900 font-medium text-xl"> in progress </div>
             </div>
             <!-- <div class="flex align-items-center justify-content-center bg-blue-100 border-round" style="width: 2.5rem; height: 2.5rem">
               <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
@@ -50,7 +50,7 @@
           <div class="flex justify-content-between mb-3">
             <div>
               <span class="block text-500 font-medium mb-3">Today traff</span>
-              <div class="text-900 font-medium text-xl">{{ cdrCount }}</div>
+              <div class="text-900 font-medium text-xl"> in progress </div>
             </div>
             <!-- <div class="flex align-items-center justify-content-center bg-blue-100 border-round" style="width: 2.5rem; height: 2.5rem">
               <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
@@ -152,9 +152,9 @@
   
   const updateCdrCount = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/get/');
+      const response = await axios.get('http://127.0.0.1:8000/api/get_count/');
       console.log(response)
-      cdrCount.value = response.data.length;
+      cdrCount.value = response.data.cdr_count;
       console.log(cdrCount.value)
     } catch (error) {
       console.error('Ошибка при получении CDR:', error);

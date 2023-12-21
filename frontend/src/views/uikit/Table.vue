@@ -14,8 +14,8 @@
           :paginatorTemplate="customPaginatorTemplate"
         >
   
-          <Column field="src" header="Source" :sortable="true" :filter="true" filterMatchMode="contains" />
-          <Column field="dst" header="Destination" :sortable="true" :filter="true" filterMatchMode="contains" />
+          <Column field="src" header="Source" :sortable="true"  />
+          <Column field="dst" header="Destination" :sortable="true"  />
           <Column field="diversion" header="Diversion" :sortable="true" />
           <Column field="channel" header="Channel" :sortable="true" />
           <Column field="dst_channel" header="Destination Channel" :sortable="true" />
@@ -61,15 +61,9 @@
   };
   
   const filteredData = computed(() => {
-    if (!apiData.value) return null;
-  
-    return apiData.value.filter((item) => {
-      const srcMatch = !filters.value.src || item.src.toLowerCase().includes(filters.value.src.toLowerCase());
-      const dstMatch = !filters.value.dst || item.dst.toLowerCase().includes(filters.value.dst.toLowerCase());
-  
-      return srcMatch && dstMatch;
-    });
-  });
+  return apiData.value; // Отображаем все данные без фильтрации
+});
+
   </script>
   
   <style scoped lang="scss">

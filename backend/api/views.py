@@ -8,6 +8,8 @@ import logging
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework.pagination import PageNumberPagination
 
 
 
@@ -38,9 +40,15 @@ class CdrCreate(CreateAPIView):
             logger.error(f'Error during CdrCreate: {str(e)}')
             return Response({'error': 'Internal Server Error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+class CustomPagination(PageNumberPagination):
+    page_size = 10  # Установите количество элементов на странице
+
 class CdrList(generics.ListCreateAPIView):
     queryset = Cdr.objects.all()
     serializer_class = CdrSerializer
+    # pagination_class = CustomPagination
+
+    # queryset = Cdr.objects.all().values('src', 'dst', 'diversion', 'channel', 'dst_channel', 'start', 'end', 'duration', 'disposition', 'pbx')
     # authentication_classes = [SessionAuthentication, TokenAuthentication]
     # permission_classes = [IsAuthenticated]
 
@@ -53,4 +61,4 @@ class CdrListById(generics.RetrieveUpdateDestroyAPIView):
 class GetCdrCount(APIView):
     def get(self, request, format=None):
         cdr_count = Cdr.objects.count()
-        return Response({'cdr_count': cdr_count}, status=status.HTTP_200_OK)
+        return Response({'cdr_count': cdr_count})
