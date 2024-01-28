@@ -92,11 +92,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': '127.0.0.1',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
@@ -120,8 +120,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080",  # Указывайте ваш домен Vue.js
-    "http://127.0.0.1:8080",
+    "http://localhost:8000",  # Указывайте ваш домен Vue.js
+    "http://127.0.0.1:8000",
     "http://localhost:5173",    
 ]
 

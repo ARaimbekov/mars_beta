@@ -5,11 +5,12 @@ from .serializers import CdrSerializer
 from .models import Cdr
 from django.http import HttpResponse
 import logging
-from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
+from django.core.exceptions import ValidationError
 
 
 
@@ -17,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 class CdrCreate(CreateAPIView):
     serializer_class = CdrSerializer
-    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    authentication_classes = [BasicAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
@@ -38,7 +39,7 @@ class CdrCreate(CreateAPIView):
             return Response({'error': e.detail}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             logger.error(f'Error during CdrCreate: {str(e)}')
-            return Response({'error': 'Internal Server Error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class CustomPagination(PageNumberPagination):
     page_size = 10  # Установите количество элементов на странице

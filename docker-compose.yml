@@ -2,19 +2,20 @@ version: "3"
 
 services:
   db:
-    image: postgres:15-alpine
-    volumes:
-      - ./db:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=postgres
+      image: postgres:15-alpine
+      volumes:
+        - ./data/db:/var/lib/postgresql/data
+      environment:
+        - POSTGRES_DB=postgres
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+      restart: always
 
   backend:
     build: backend/
     ports:
       - "8000:8000"
-    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn -w 4 --bind 0.0.0.0:8000 backend.wsgi
     depends_on:
       - db
     restart: on-failure
@@ -22,8 +23,8 @@ services:
   frontend:
     build: frontend/
     ports:
-      - "3000:3000"
-
+      - "5173:5173" 
     command: npm run dev
     depends_on:
       - backend
+    restart: on-failure
