@@ -1,20 +1,5 @@
-# Используйте официальный образ Python
-FROM python:3.9
-
-# Установите рабочую директорию внутри контейнера
-WORKDIR /app
-
-# Копируйте зависимости и файлы проекта
-COPY requirements.txt .
-
-# Установите зависимости
-RUN pip install -r requirements.txt
-
-# Копируйте остальные файлы проекта
+FROM python:3.11-alpine
+ENV PYTHONUNBUFFERED 1
+WORKDIR /backend
 COPY . .
-
-# Укажите порт, который будет использоваться внутри контейнера
-EXPOSE 8000
-
-# Запустите команду для запуска приложения
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+RUN pip install -r requirements.txt
